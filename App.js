@@ -1,119 +1,74 @@
-import { StatusBar } from 'expo-status-bar';
+import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import {FlatList, StyleSheet, Text, TouchableOpacity} from 'react-native';
 
 // after `expo install react-native-safe-area-context`.
-import { SafeAreaView } from 'react-native-safe-area-context';
-export default class App extends React.Component {
-  fruits = [
-    { name: 'Acai' },
-    { name: 'Apples' },
-    { name: 'Apricots' },
-    { name: 'Avocado' },
-    { name: 'Ackee' },
-    { name: 'Bananas' },
-    { name: 'Bilberries' },
-    { name: 'Blueberries' },
-    { name: 'Blackberries' },
-    { name: 'Boysenberries' },
-    { name: 'Bread fruit' },
-    { name: 'Cantaloupes (cantalope)' },
-    { name: 'Chocolate-Fruit' },
-    { name: 'Cherimoya' },
-    { name: 'Cherries' },
-    { name: 'Cranberries' },
-    { name: 'Cucumbers' },
-    { name: 'Currants' },
-    { name: 'Dates' },
-    { name: 'Durian' },
-    { name: 'Eggplant' },
-    { name: 'Elderberries' },
-    { name: 'Figs' },
-    { name: 'Gooseberries' },
-    { name: 'Grapes' },
-    { name: 'Grapefruit' },
-    { name: 'Guava' },
-    { name: 'Honeydew melons' },
-    { name: 'Horned melon (Kiwano)' },
-    { name: 'Huckleberries' },
-    { name: 'Ita Palm' },
-    { name: 'Jujubes' },
-    { name: 'Kiwis' },
-    { name: 'Durian is an unusual tropical fruit.' },
-    { name: 'Kumquat' },
-    { name: 'Lemons' },
-    { name: 'Limes' },
-    { name: 'Lychees' },
-    { name: 'Mangos' },
-    { name: 'Mangosteen' },
-    { name: 'Mulberries' },
-    { name: 'Muskmelon' },
-    { name: 'Nectarines' },
-    { name: 'Ogden melons' },
-    { name: 'Olives' },
-    { name: 'Oranges' },
-    { name: 'Papaya' },
-    { name: 'Passion fruit' },
-    { name: 'Peaches' },
-    { name: 'Pears' },
-    { name: 'Peppers' },
-    { name: 'Persimmon' },
-    { name: 'Pineapple' },
-    { name: 'Plums' },
-    { name: 'Pluot' },
-    { name: 'Pomegranate' },
-    { name: 'Prickly Pear' },
-    { name: 'Quince' },
-    { name: 'Rambuton' },
-    { name: 'Raspberries' },
-    { name: 'Rose Apple' },
-    { name: 'Starfruit' },
-    { name: 'Sapadilla' },
-    { name: 'Strawberries' },
-    { name: 'Tamarind' },
-    { name: 'Tangelo' },
-    { name: 'Tangerines' },
-    { name: 'Tomatoes' },
-    { name: 'Ugli fruit' },
-    { name: 'Voavanga (Spanish Tamarind)' },
-    { name: 'Watermelons' },
-    { name: 'Xigua melon' },
-    { name: 'Yellow watermelon' },
-    { name: 'Zucchini' },
-  ];
-  renderItem({ name }) {
-    return (
-      <View style={styles.item} key={name}>
-        <Text style={styles.text}>{name}</Text>
-      </View>
-    );
-  }
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <FlatList style={styles.container}
-          renderItem={({ item }) => this.renderItem(item)}
-          data={this.fruits}
-        />
+import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+// SafeArea 에러 해결
 
-        <StatusBar style="auto" />
-      </SafeAreaView>
-    );
-  }
+export default class App extends React.Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            cities: [],
+        };
+    }
+
+    componentDidMount() {
+        fetch('https://raw.githubusercontent.com/example0312/weather-crawler/master/availableCityNames')
+            // fetch 함수 인자 주소 404 NotFound로 인한 페이지 정보표시 불가
+            .then(response => response.json())
+            .then(cities => {
+                console.log('cities =', cities.length);
+                this.setState({
+                    cities
+                });
+            });
+    }
+
+    onPressCity(item) {
+        console.log('onPressCity =', item);
+    }
+
+    renderItem(city) {
+        return (
+            <SafeAreaProvider>
+                <TouchableOpacity style={styles.item} onPress={this.onPressCity}>
+                    <Text style={styles.text}>{city}</Text>
+                </TouchableOpacity>
+            </SafeAreaProvider>
+        );
+    }
+
+    render() {
+        return (
+            <SafeAreaProvider>
+                <SafeAreaView style={styles.container}>
+                    <FlatList style={styles.container}
+                              keyExtractor={item => item}
+                              renderItem={({item}) => this.renderItem(item)}
+                              data={this.state.cities}
+                    />
+                    <StatusBar style="auto"/>
+                </SafeAreaView>
+            </SafeAreaProvider>
+        );
+    }
 }
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  item: {
-    flex: 1,
-    height: 50,
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: 'orange',
-  },
-  text: {
-    fontSize: 20,
-    textAlign: 'center',
-  },
+    container: {
+        flex: 1,
+    },
+    item: {
+        flex: 1,
+        height: 50,
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: 'orange',
+    },
+    text: {
+        fontSize: 20,
+        textAlign: 'center',
+    },
 });
