@@ -7,7 +7,6 @@ import CityList from './CityList';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 // SafeArea 에러 해결
 
-
 export default class App extends React.Component {
     render() {
         return (
