@@ -34,7 +34,7 @@ export default class App extends React.Component {
     renderItem(city) {
         return (
             <SafeAreaProvider>
-                <TouchableOpacity style={styles.item} onPress={this.onPressCity}>
+                <TouchableOpacity style={styles.item} onPress={() => this.onPressCity(city)}>
                     <Text style={styles.text}>{city}</Text>
                 </TouchableOpacity>
             </SafeAreaProvider>
