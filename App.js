@@ -1,35 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
+import {StatusBar} from 'expo-status-bar';
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import {Image, StyleSheet, Text, ScrollView, View} from 'react-native';
+
+// after `expo install react-native-safe-area-context`.
+import {SafeAreaView, SafeAreaProvider} from 'react-native-safe-area-context';
+// 오류 해결 -> SafeAreaProvider 추가 및 return 내용 감싸기.
+
 export default class App extends React.Component {
     render() {
         return (
-            <View style={styles.container}>
-                <Text style={styles.text}>1</Text>
-                <Text style={[styles.text, styles.text2]}>2</Text>
-                <Text style={styles.text}>3</Text>
-                <StatusBar style="auto" />
-            </View>
+            <SafeAreaProvider>
+                <SafeAreaView style={styles.container}>
+                    <ScrollView style={styles.container}>
+                        <View style={styles.item}>
+                            <Text style={styles.text}>Apple</Text>
+                        </View>
+                        <View style={styles.item}>
+                            <Text style={styles.text}>Banana</Text>
+                        </View>
+                        <View style={styles.item}>
+                            <Text style={styles.text}>Cherries</Text>
+                        </View>
+                        <View style={styles.item}>
+                            <Text style={styles.text}>Damson plum</Text>
+                        </View>
+                        <View style={styles.item}>
+                            <Text style={styles.text}>...</Text>
+                        </View>
+                    </ScrollView>
+                    <StatusBar style="auto"/>
+                </SafeAreaView>
+            </SafeAreaProvider>
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'stretch',
+    },
+    item: {
+        flex: 1,
+        height: 50,
         justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: 'orange',
     },
     text: {
-        flex: 1,
-        borderWidth: 1,
-        borderColor: 'red',
+        fontSize: 20,
         textAlign: 'center',
-        textAlignVertical: 'center',
-        fontSize: 24,
-        fontWeight: 'bold',
     },
-    text2: {
-        flex: 2,
-    }
 });
