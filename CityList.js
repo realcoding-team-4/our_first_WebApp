@@ -11,7 +11,6 @@ export default class CityList extends React.Component {
         fetch('https://raw.githubusercontent.com/example0312/weather-crawler/e3168f2b4e316691f8ab385f738783976eef7f0d/availableCityNames')
             .then(response => response.json())
             .then(cities => {
-                console.log('cities =', cities.length);
                 this.setState({
                     cities
                 });
@@ -20,7 +19,9 @@ export default class CityList extends React.Component {
 
     onPressCity(item) {
         console.log('onPressCity =', item);
-        this.props.navigation.navigate('Detail');
+        this.props.navigation.navigate('Detail', {
+            city: item
+        });
     }
 
     renderItem(city) {
