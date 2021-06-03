@@ -12,12 +12,12 @@ export default class CityList extends React.Component {
 
   componentDidMount() {
     fetch('https://raw.githubusercontent.com/example0312/weather-crawler/e3168f2b4e316691f8ab385f738783976eef7f0d/availableCityNames')
-      .then(response => response.json())
-      .then(cities => {
-        this.setState({
-          cities
+        .then(response => response.json())
+        .then(cities => {
+          this.setState({
+            cities
+          });
         });
-      });
   }
 
   onPressCity(item) {
@@ -29,19 +29,20 @@ export default class CityList extends React.Component {
 
   renderItem(city) {
     return (
-      <TouchableOpacity style={styles.item} onPress={() => this.onPressCity(city)}>
-        <Text style={styles.text}>{city}</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.item} onPress={() => this.onPressCity(city)}>
+          <Text style={styles.text}>{city}</Text>
+        </TouchableOpacity>
     );
   }
 
   render() {
     return (
-      <FlatList style={styles.container}
-                renderItem={({ item }) => this.renderItem(item)}
-                keyExtractor={item => item}
-                data={this.state.cities}
-      />
+        <FlatList style={styles.container}
+                  numColumns={3}
+                  renderItem={({ item }) => this.renderItem(item)}
+                  keyExtractor={item => item}
+                  data={this.state.cities}
+        />
     );
   }
 }
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     borderColor: 'orange',
   },
   text: {
-    fontSize: 20,
+    fontSize: 14,
     textAlign: 'center',
   }
 });
