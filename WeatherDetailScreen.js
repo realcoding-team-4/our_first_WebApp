@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { ActivityIndicator, StyleSheet, View, Text } from 'react-native';
 import Constants from 'expo-constants';
 
 const {
@@ -8,7 +8,7 @@ const {
   region,
 } = Constants.manifest.extra.openWeatherApi;
 
-const queryUrl = (city) => `${baseUrl}/weather?q=${city}&appid=${apiKey}&lang=${region}`
+const queryUrl = (city) => `api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`;
 
 export default class WeatherDetailScreen extends React.Component {
   constructor(props) {
@@ -50,7 +50,7 @@ export default class WeatherDetailScreen extends React.Component {
     if (this.state.isLoading) {
       return (
         <View style={styles.container}>
-          <Text>데이터를 불러오는 중입니다.</Text>
+          <ActivityIndicator size="large" />
         </View>
       )
     }
