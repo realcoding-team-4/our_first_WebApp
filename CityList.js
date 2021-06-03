@@ -1,15 +1,12 @@
 import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity } from 'react-native';
-
 export default class CityList extends React.Component {
     constructor(props) {
         super(props);
-
         this.state = {
             cities: [],
         };
     }
-
     componentDidMount() {
         fetch('https://raw.githubusercontent.com/example0312/weather-crawler/e3168f2b4e316691f8ab385f738783976eef7f0d/availableCityNames')
             .then(response => response.json())
@@ -23,6 +20,7 @@ export default class CityList extends React.Component {
 
     onPressCity(item) {
         console.log('onPressCity =', item);
+        this.props.navigation.navigate('Detail');
     }
 
     renderItem(city) {
@@ -32,7 +30,6 @@ export default class CityList extends React.Component {
             </TouchableOpacity>
         );
     }
-
     render() {
         return (
             <FlatList style={styles.container}
@@ -43,7 +40,6 @@ export default class CityList extends React.Component {
         );
     }
 }
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -53,7 +49,6 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 50,
         justifyContent: 'center',
-
         borderWidth: 1,
         borderColor: 'orange',
     },
