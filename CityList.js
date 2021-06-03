@@ -38,6 +38,7 @@ export default class CityList extends React.Component {
   render() {
     return (
       <FlatList style={styles.container}
+                numColumns={3}
                 renderItem={({ item }) => this.renderItem(item)}
                 keyExtractor={item => item}
                 data={this.state.cities}
@@ -60,7 +61,7 @@ const styles = StyleSheet.create({
     borderColor: 'orange',
   },
   text: {
-    fontSize: 20,
+    fontSize: 14,
     textAlign: 'center',
   }
 });
